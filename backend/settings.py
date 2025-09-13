@@ -41,13 +41,15 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
+    'drf_yasg',
+    
     # Tu app
     'core',
     'users',
 ]
 
 MIDDLEWARE = [
-    # Agrega CorsMiddleware al principio
+    # Agrega CorsMiddleware al princispio
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     #
@@ -67,9 +69,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
-        'APP_DIRS': True,
+        'APP_DIRS': True,# Agrega APP_DIRS para buscar templates en las apps
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
