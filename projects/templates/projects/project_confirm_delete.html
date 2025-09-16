@@ -1,0 +1,7 @@
+<h2>¿Estás seguro de eliminar "{{ object.name }}"?</h2>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">Sí, eliminar</button>
+  <a href="{% url 'projects:project_list' %}">Cancelar</a>
+</form>
+<p>Esta acción no se puede deshacer.</p>

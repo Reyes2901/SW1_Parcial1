@@ -31,8 +31,12 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
+    #admin/ 
     path('admin/', admin.site.urls),
+    # Rutas de la app users y projects
     path('api/users/', include('users.urls')),
+    path('api/projects/', include('projects.api_urls')),
+
 
     # Documentación Swagger y ReDoc
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',
@@ -41,4 +45,5 @@ urlpatterns = [
          name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0),
          name='schema-redoc'),
+    #path('api/projects/', include('projects.urls')),
 ]
