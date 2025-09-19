@@ -17,7 +17,16 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'owner', 'collaborators', 'start_date', 'created_at']
 User = get_user_model()
 
-class CollaboratorSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['id', 'username']
+class CollaboratorSerializer(serializers.Serializer):
+    #Serializar por ModelSerializer: no esta creado un modelo específico para colaboradores
+    #Solo usando el username para agregar/eliminar colaboradores
+    
+    username = serializers.CharField()
+
+    def validate_username(self, value):
+        User = get_user_model()
+        try:
+            user = User.objects.get(username=value)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("El usuario no existe.")
+        return value

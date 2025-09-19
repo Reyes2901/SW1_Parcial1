@@ -1,0 +1,41 @@
+package {{ package_name }}.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
+import {{ package_name }}.model.{{ class_name }};
+import {{ package_name }}.repository.{{ class_name }}Repository;
+
+@RestController
+@RequestMapping("/api/{{ class_name|lower }}s")
+public class {{ class_name }}Controller {
+
+    @Autowired
+    private {{ class_name }}Repository repository;
+
+    @GetMapping
+    public List<{{ class_name }}> getAll() {
+        return repository.findAll();
+    }
+
+    @PostMapping
+    public {{ class_name }} create(@RequestBody {{ class_name }} obj) {
+        return repository.save(obj);
+    }
+
+    @GetMapping("/{id}")
+    public {{ class_name }} getById(@PathVariable Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    @PutMapping("/{id}")
+    public {{ class_name }} update(@PathVariable Long id, @RequestBody {{ class_name }} obj) {
+        obj.setId(id);
+        return repository.save(obj);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        repository.deleteById(id);
+    }
+}

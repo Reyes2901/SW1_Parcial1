@@ -1,0 +1,16 @@
+package {{ package }};
+
+import javax.persistence.*;
+
+@Entity
+public class {{ class_name }} {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    {% for attr in attributes %}
+    private {{ attr.type }} {{ attr.name }};
+    {% endfor %}
+
+    // Getters y Setters...
+}

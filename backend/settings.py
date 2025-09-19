@@ -42,12 +42,13 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'corsheaders',
     'drf_yasg',
-    
-    # Tu app
+    'channels',
+    # Tus apps
     'core',
     'users',#gestion de usuarios
     'projects',#gestion de proyectos
-    
+    'diagrams',#gestion de diagramas
+    'generator',#generacion de codigo backend
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'backend.wsgi.application'
+#si algo sale mal con asgi, descomenta la linea de wsgi y comenta la de asgi
+#WSGI_APPLICATION = 'backend.wsgi.application'
+#configuracion para canales y websockets
+ASGI_APPLICATION = "core.asgi.application"
 
 
 # Database
@@ -157,3 +161,14 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
 }
+
+# Redis (canal de mensajes)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
+    },
+}
+# Configuración del usuario personalizado
