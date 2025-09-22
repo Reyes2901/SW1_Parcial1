@@ -1,0 +1,31 @@
+package {{ package_name }}.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Optional;
+import {{ package_name }}.model.{{ class_name }};
+import {{ package_name }}.repository.{{ class_name }}Repository;
+
+@Service
+public class {{ class_name }}Service {
+
+    @Autowired
+    private {{ class_name }}Repository repository;
+
+    public List<{{ class_name }}> findAll() {
+        return repository.findAll();
+    }
+
+    public Optional<{{ class_name }}> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    public {{ class_name }} save({{ class_name }} obj) {
+        return repository.save(obj);
+    }
+
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+}

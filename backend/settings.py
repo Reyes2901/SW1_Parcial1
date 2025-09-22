@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,7 +88,7 @@ TEMPLATES = [
 #si algo sale mal con asgi, descomenta la linea de wsgi y comenta la de asgi
 #WSGI_APPLICATION = 'backend.wsgi.application'
 #configuracion para canales y websockets
-ASGI_APPLICATION = "core.asgi.application"
+ASGI_APPLICATION = "backend.asgi.application"
 
 
 # Database
@@ -165,10 +166,17 @@ REST_FRAMEWORK = {
 # Redis (canal de mensajes)
 CHANNEL_LAYERS = {
     "default": {
+        #"BACKEND": "channels_redis.core.RedisChannelLayer",
+        #"BACKEND": "channels.layers.InMemoryChannelLayer",
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
             "hosts": [("127.0.0.1", 6379)],
+            #si algo falla, prueba con la ip del contenedor de redis
+            #"hosts": [("redis", 6379)],  # nombre del servicio en docker-compose
         },
     },
 }
 # Configuración del usuario personalizado
+#
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 

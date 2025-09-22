@@ -11,31 +11,32 @@ import {{ package_name }}.repository.{{ class_name }}Repository;
 public class {{ class_name }}Controller {
 
     @Autowired
-    private {{ class_name }}Repository repository;
+    private {{ class_name }}Service service;
 
     @GetMapping
     public List<{{ class_name }}> getAll() {
-        return repository.findAll();
-    }
-
-    @PostMapping
-    public {{ class_name }} create(@RequestBody {{ class_name }} obj) {
-        return repository.save(obj);
+        return service.findAll();
     }
 
     @GetMapping("/{id}")
     public {{ class_name }} getById(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+        return service.findById(id).orElse(null);
+    }
+
+    @PostMapping
+    public {{ class_name }} create(@RequestBody {{ class_name }} obj) {
+        return service.save(obj);
     }
 
     @PutMapping("/{id}")
     public {{ class_name }} update(@PathVariable Long id, @RequestBody {{ class_name }} obj) {
         obj.setId(id);
-        return repository.save(obj);
+        return service.save(obj);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.deleteById(id);
     }
+
 }
