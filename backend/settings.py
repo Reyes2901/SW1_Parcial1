@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+# Carga las variables de entorno desde un archivo .env si existe
+load_dotenv()   
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,9 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-oud@tjj8*_85clvi(5y$sfvd%5snd*b_k00(cuc#*qfdf=y0(+'
+#SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
 
@@ -41,9 +48,10 @@ INSTALLED_APPS = [
     # Terceros
     'rest_framework',
     'rest_framework.authtoken',
+    'channels',
     'corsheaders',
     'drf_yasg',
-    'channels',
+    
     # Tus apps
     'core',
     'users',#gestion de usuarios
@@ -170,9 +178,12 @@ CHANNEL_LAYERS = {
         #"BACKEND": "channels.layers.InMemoryChannelLayer",
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            #"hosts": [("127.0.0.1", 6379)],
             #si algo falla, prueba con la ip del contenedor de redis
             #"hosts": [("redis", 6379)],  # nombre del servicio en docker-compose
+            #configuracion con variables de entorno
+            "hosts": [(os.getenv("REDIS_HOST", "redis"), int(os.getenv("REDIS_PORT", 6379)))],
+
         },
     },
 }
