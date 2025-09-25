@@ -11,12 +11,14 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UsuarioSerializer, RegistroSerializer
+from rest_framework.permissions import AllowAny
 
 # Registro de usuario
 class RegistroAPIView(APIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AllowAny]
     @swagger_auto_schema(request_body=RegistroSerializer)
     def post(self, request):
+        print("📌 RegistroAPIView activado")  # Agrega esto
         serializer = RegistroSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -28,7 +30,8 @@ class RegistroAPIView(APIView):
 
 # Login con token
 class LoginAPIView(ObtainAuthToken):
-    permission_classes = [IsAuthenticated]
+    #permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     @swagger_auto_schema(
         request_body=None,
         responses={200: openapi.Response("Sesión cerrada correctamente.")}

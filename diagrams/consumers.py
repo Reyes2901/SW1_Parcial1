@@ -51,16 +51,16 @@ class DiagramConsumer(AsyncWebsocketConsumer):
             "user": event['user'],
             "message": event['message']
         }))
-@database_sync_to_async
-def user_can_access(self):
-    if isinstance(self.user, AnonymousUser):
-        return False
-    try:
-        diagram = Diagram.objects.get(id=self.diagram_id)
-    except Diagram.DoesNotExist:
-        return False
+    @database_sync_to_async
+    def user_can_access(self):
+        if isinstance(self.user, AnonymousUser):
+            return False
+        try:
+            diagram = Diagram.objects.get(id=self.diagram_id)
+        except Diagram.DoesNotExist:
+            return False
 
-    if self.user == diagram.created_by or self.user in diagram.project.collaborators.all():
-        return True
-    return False
+        if self.user == diagram.created_by or self.user in diagram.project.collaborators.all():
+            return True
+        return False
 # from channels.generic.websocket import AsyncWebsocketConsumer

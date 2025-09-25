@@ -37,7 +37,7 @@ urlpatterns = [
     # Rutas de la app users y projects
     path('api/users/', include('users.urls')),
     path('api/projects/', include('projects.api_urls')),
-
+    path('projects/', include('projects.urls')),
 
     # Documentación Swagger y ReDoc
     re_path(r'^swagger(?P<format>\.json|\.yaml)$',

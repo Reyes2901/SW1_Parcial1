@@ -78,3 +78,11 @@ def generar_springboot_proyecto(diagrama_json, output_base_dir, app_name="Genera
     shutil.rmtree(project_dir, ignore_errors=True)
 
     return zip_path
+# Ejemplo de uso:
+# diagrama_ejemplo = {  "classes": [{"name": "User", "attributes": [{"name": "id", "type": "Long"}, {"name": "username", "type": "String"}, {"name": "email", "type": "String"}]}, {"name": "Post", "attributes": [{"name": "id", "type": "Long"}, {"name": "title", "type": "String"}, {"name": "content", "type": "String"}, {"name": "userId", "type": "Long"}]}]}            
+# generar_springboot_proyecto(diagrama_ejemplo, "/
+#ruta/donde/guardar")tmp", app_name="MyApp", package_name="com.mycompany.myapp")
+# Asegúrate de tener las plantillas en un directorio llamado "templates/java" dentro de tu app Django.
+# Y configura TEMPLATES en settings.py para que incluya 'APP_DIRS': True,
+# o agrega la ruta a 'DIRS'.
+# Y configura TEMPLATES en settings.py para que incluya 'APP_DIRS': True,

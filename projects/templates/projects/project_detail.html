@@ -1,0 +1,10 @@
+<h2>{{ object.name }}</h2>
+<p>{{ object.description }}</p>
+<p>Owner: {{ object.owner.username }}</p>
+<p>Colaboradores: {% for u in object.collaborators.all %}{{ u.username }} {% endfor %}</p>
+
+<a href="{% url 'projects:project_edit' object.pk %}">Editar</a>
+{% if object.owner == request.user %}
+<a href="{% url 'projects:project_delete' object.pk %}">Eliminar</a>
+{% endif %}
+<a href="{% url 'projects:project_list' %}">Volver</a>

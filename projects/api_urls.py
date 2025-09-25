@@ -5,8 +5,7 @@ from .collaborator_views import CollaboratorListCreateView, CollaboratorDeleteVi
 
 router = DefaultRouter()
 # Registrar el ViewSet del proyecto
-router.register(r'', ProjectViewSet)#, basename='project')
-
+router.register(r'', ProjectViewSet, basename='project')#, basename='project')
 
 urlpatterns = router.urls
 

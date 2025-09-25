@@ -2,6 +2,9 @@ import tempfile
 from django.http import FileResponse, Http404
 from diagrams.models import Diagram
 from .generator import generar_springboot_proyecto
+#Limpieza de archivos temporales
+import os
+import shutil   
 
 def generar_backend_zip(request, diagram_id):
     try:
@@ -14,3 +17,5 @@ def generar_backend_zip(request, diagram_id):
     zip_path = generar_springboot_proyecto(content, temp_dir, app_name="GeneratedApp", package_name="com.example")
 
     return FileResponse(open(zip_path, 'rb'), as_attachment=True, filename='generated_backend.zip')
+    # Limpieza del directorio temporal si es necesario
+    

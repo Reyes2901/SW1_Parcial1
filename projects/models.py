@@ -9,7 +9,7 @@ class Project(models.Model):
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_projects')
     #collaborators = models.ManyToManyField(User, related_name='collaborations', blank=True)
-    # Updated line to avoid conflict with User model in users app
+    #Colaborares en proyectos
     collaborators = models.ManyToManyField(User, related_name='collaborated_projects', blank=True)
     
     start_date = models.DateField(null=True, blank=True)
