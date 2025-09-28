@@ -157,7 +157,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuración de CORS
-CORS_ALLOW_ALL_ORIGINS = True  # Cambiar por dominios específicos en producción
+#CORS_ALLOW_ALL_ORIGINS = True  # Cambiar por dominios específicos en producción
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # si usas React con CRA
+    "http://localhost:5173",  # si usas Vite (opcional)
+]
+
+
+CORS_ALLOW_CREDENTIALS = True # Permitir cookies y credenciales
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [

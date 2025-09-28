@@ -13,27 +13,35 @@ class IsCollaboratorOrReadOnly(permissions.BasePermission):
             request.user in obj.project.collaborators.all()
         )
 
+from django.db.models import Q
+
 class DiagramListCreateAPI(generics.ListCreateAPIView):
     serializer_class = DiagramSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        return Diagram.objects.filter(
-            project__collaborators=self.request.user
+        project_id = self.request.query_params.get("project")
+        qs = Diagram.objects.all()
+        if project_id:
+            qs = qs.filter(project_id=project_id)
+        
+        # Filtrar por usuario como owner o colaborador
+        qs = qs.filter(
+            Q(project__owner=self.request.user) |
+            Q(project__collaborators=self.request.user)
         )
-
-    def perform_create(self, serializer):
-        serializer.save(created_by=self.request.user)
+        return qs.distinct()
 
 class DiagramDetailAPI(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Diagram.objects.all()
     serializer_class = DiagramSerializer
     permission_classes = [permissions.IsAuthenticated, IsCollaboratorOrReadOnly]
 
     def get_queryset(self):
-        return Diagram.objects.filter(project__collaborators=self.request.user)
-
-
+        qs = Diagram.objects.filter(
+            Q(project__owner=self.request.user) |
+            Q(project__collaborators=self.request.user)
+        )
+        return qs.distinct()
 
 # Actualizar solo el contenido JSON del diagrama
 class DiagramContentUpdateAPI(APIView):

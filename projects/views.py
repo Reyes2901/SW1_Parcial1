@@ -18,10 +18,11 @@ from rest_framework.exceptions import PermissionDenied
 from django.db.models import Q
 
 from rest_framework.exceptions import NotFound
-
+#cambio para que busque por PK
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     permission_classes = [IsAuthenticated]
+    lookup_field = "pk"  #Asegura que solo busque por id
 
     def get_queryset(self):
         user = self.request.user
@@ -33,7 +34,7 @@ class ProjectViewSet(viewsets.ModelViewSet):
         serializer.save(owner=self.request.user)
 
     def get_object(self):
-        obj = super().get_object()
+        obj = super().get_object()  # Esto ya buscará solo por id
         if self.request.user != obj.owner and self.request.user not in obj.collaborators.all():
             raise NotFound("Proyecto no encontrado o acceso denegado.")
         return obj
@@ -67,8 +68,12 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         response = super().form_valid(form)
-        collaborators = form.cleaned_data['collaborators'].exclude(pk=self.request.user.pk)
-        form.instance.collaborators.add(*collaborators)
+
+        # Asegúrate de que collaborators sea iterable de User
+        collaborators = form.cleaned_data.get('collaborators', [])
+        for user in collaborators:
+            if user != self.request.user and user not in self.object.collaborators.all():
+                self.object.collaborators.add(user)
         return response
 
 
