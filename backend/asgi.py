@@ -6,6 +6,9 @@ import diagrams.routing  # Asegúrate que esto exista
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 
+django_asgi_app = get_asgi_application()
+import diagrams.routing  
+
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
     "websocket": AuthMiddlewareStack(
