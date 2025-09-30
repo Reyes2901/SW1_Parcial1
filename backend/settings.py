@@ -101,7 +101,7 @@ ASGI_APPLICATION = "backend.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+""""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -113,7 +113,18 @@ DATABASES = {
         #'PORT': '5432',
     }
 }
-
+"""
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("MYSQLDATABASE", "railway"),
+        "USER": os.getenv("MYSQLUSER", "root"),
+        "PASSWORD": os.getenv("MYSQLPASSWORD", ""),
+        "HOST": os.getenv("MYSQLHOST", "localhost"),
+        "PORT": os.getenv("MYSQLPORT", "3306"),
+        "OPTIONS": {"charset": "utf8mb4"},
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

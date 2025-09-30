@@ -44,6 +44,7 @@ class DiagramDetailAPI(generics.RetrieveUpdateDestroyAPIView):
         return qs.distinct()
 
 # Actualizar solo el contenido JSON del diagrama
+# Actualizar solo el contenido JSON del diagrama
 class DiagramContentUpdateAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
@@ -65,10 +66,19 @@ class DiagramContentUpdateAPI(APIView):
             # Control de versiones (conflictos)
             incoming_time = parse_datetime(request.data.get("updated_at"))
             if incoming_time and incoming_time < diagram.updated_at:
-                return Response({"error": "El diagrama ha sido modificado por otro usuario."}, status=409)
+                return Response(
+                    {"error": "El diagrama ha sido modificado por otro usuario."},
+                    status=409
+                )
 
-            diagram.content = serializer.validated_data
-            diagram.updated_at = incoming_time
+            # ⚡️ Guardar solo el contenido serializable
+            content = serializer.validated_data.get("content", {})
+            diagram.content = content
+
+            # ⚡️ Guardar timestamp en el campo real del modelo (no dentro del JSON)
+            if incoming_time:
+                diagram.updated_at = incoming_time
+
             diagram.save()
             return Response({"message": "Contenido del diagrama actualizado"}, status=200)
 
