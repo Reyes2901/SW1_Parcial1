@@ -8,3 +8,6 @@ from .models import Diagram
 class DiagramAdmin(admin.ModelAdmin):
     list_display = ('name', 'project', 'created_by', 'created_at')
     search_fields = ('name',)
+    list_filter = ('project', 'created_by')
+
+
